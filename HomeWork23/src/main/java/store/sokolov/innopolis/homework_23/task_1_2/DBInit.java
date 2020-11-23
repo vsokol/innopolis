@@ -50,6 +50,9 @@ public class DBInit {
     public void executeSQLs() throws IOException, SQLException {
         List<String> listOfSQL = getListOfSQL(sqlFolder);
         Statement sqlStatement = connection.createStatement();
+        if (listOfSQL == null || listOfSQL.size() == 0) {
+            return;
+        }
         for (String file : listOfSQL) {
             //System.out.println("Выполнение - " + file);
             logger.info("Выполнение - " + file);
