@@ -12,26 +12,31 @@ import java.sql.*;
      */
     public class TestLogger {
         public static DBInit db;
+        private static final Logger logger = LoggerFactory.getLogger("TestLogger");
 
         public static void main(String[] args) throws SQLException, IOException {
-            Logger logger = LoggerFactory.getLogger("TestLogger");
-            logger.info("Старт Main");
-            System.out.println("Домашнее задание 19");
-            logger.info("Подготовка базы");
-            db = new DBInit("jdbc:postgresql://localhost:5432/testDB?user=postgres&password=Asdf4321", "src/main/java/store/sokolov/innopolis/homework_22/sql");
-            logger.info("-- Сброс и инициализация базы данных --");
-            db.executeSQLs();
-            logger.info("База готова");
-            logger.info("Выполнение метода task1()");
-            task1();
-            logger.info("Выполнение метода task2()");
-            task2();
-            logger.info("Выполнение метода task3()");
-            task3();
-            logger.info("Выполнение метода task4()");
-            task4();
-            logger.info("Выполнение метода task5()");
-            task5();
+            try {
+                logger.info("Старт Main");
+                System.out.println("Домашнее задание 19");
+                logger.info("Подготовка базы");
+                db = new DBInit("jdbc:postgresql://localhost:5432/testDB?user=postgres&password=Asdf4321", "src/main/java/store/sokolov/innopolis/homework_22/sql");
+                logger.info("-- Сброс и инициализация базы данных --");
+                db.executeSQLs();
+                logger.info("База готова");
+                logger.info("Выполнение метода task1()");
+                task1();
+                logger.info("Выполнение метода task2()");
+                task2();
+                logger.info("Выполнение метода task3()");
+                task3();
+                logger.info("Выполнение метода task4()");
+                task4();
+                logger.info("Выполнение метода task5()");
+                task5();
+            } catch (SQLException | IOException exception) {
+                logger.error("Ошибка однако...", exception);
+                throw exception;
+            }
         }
 
         /**
