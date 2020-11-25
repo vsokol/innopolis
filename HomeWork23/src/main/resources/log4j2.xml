@@ -21,8 +21,12 @@
             <PatternLayout pattern="%d [%p] %c %m%n"/>
         </Console>
         <JDBC name="db" tableName="app_logs">
-            <DriverManager connectionString="jdbc:postgresql://localhost:5432/testDB" driverClassName="org.postgresql.Driver"
+            <DriverManager connectionString="jdbc:postgresql://localhost:5432/testDB"
+                           driverClassName="org.postgresql.Driver"
                            username="postgres" password="Asdf4321"/>
+<!--            <DriverManager connectionString="jdbc:postgresql://host.docker.internal:5432/testDB"-->
+<!--                           driverClassName="org.postgresql.Driver"-->
+<!--                           username="postgres" password="Asdf4321"/>-->
             <Column name="log_id" pattern="%u" isUnicode="false"/>
             <Column name="entry_date" isEventTimestamp="true"/>
             <Column name="logger" pattern="%logger" isUnicode="false"/>

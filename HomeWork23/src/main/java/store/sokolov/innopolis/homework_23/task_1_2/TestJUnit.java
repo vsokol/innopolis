@@ -8,17 +8,19 @@ import java.sql.*;
 
     /**
      * Описание задачи - tasks.md
-     * Инициализация БД. Запросы читаются из каталога src/main/java/store/sokolov/innopolis/homework_22/sql и выполняются на бд.
+     * Инициализация БД. Запросы читаются из каталога src/main/java/store/sokolov/innopolis/homework_23/sql и выполняются на бд.
      */
     public class TestJUnit {
-        public static DBInit db;
+        private static String url = "jdbc:postgresql://localhost:5432/testDB?user=postgres&password=Asdf4321";
+        //private static String url = "jdbc:postgresql://host.docker.internal:5432/testDB?user=postgres&password=Asdf4321";
+        private static DBInit db;
 
         public static void main(String[] args) throws SQLException, IOException {
             Logger logger = LoggerFactory.getLogger("TestJUnit");
             logger.info("Старт Main");
             System.out.println("Домашнее задание 19");
             logger.info("Подготовка базы");
-            db = new DBInit("jdbc:postgresql://localhost:5432/testDB?user=postgres&password=Asdf4321", "src/main/java/store/sokolov/innopolis/homework_22/sql");
+            db = new DBInit(url, "src/main/java/store/sokolov/innopolis/homework_23/sql");
             logger.info("-- Сброс и инициализация базы данных --");
             db.executeSQLs();
             logger.info("База готова");
