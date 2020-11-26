@@ -5,8 +5,8 @@ import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 import store.sokolov.innopolis.homework_23.task_1_2.ConnectionManager.ConnectionManager;
 
-import java.io.File;
-import java.io.IOException;
+import java.io.*;
+import java.lang.reflect.Executable;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.List;
@@ -24,6 +24,12 @@ class DBInitTest {
     private Connection connection;
     @Mock
     private File folder;
+    @Mock
+    private FileInputStream fileInputStream;
+    @Mock
+    private InputStreamReader inputStreamReader;
+    @Mock
+    private BufferedReader reader;
 
     @BeforeEach
     void setUp() throws SQLException {
@@ -31,7 +37,8 @@ class DBInitTest {
         connectionManager = mock(ConnectionManager.class);
         connection = mock(Connection.class);
         when(connectionManager.getConnection()).thenReturn(connection);
-        dbInit = spy(new DBInit(connectionManager, sqlFolder));
+
+        dbInit = new DBInit(connectionManager, sqlFolder);
     }
 
     @Test
@@ -46,9 +53,21 @@ class DBInitTest {
         when(folder.listFiles()).thenReturn(null);
 
         List<String> list = dbInit.getListOfSQL(sqlFolder);
+        assertNotNull(list);
+        assertEquals(list.size(), 0);
     }
 
     @Test
-    void getSQLFromFile() {
+    void getSQLFromFile() throws IOException {
+        //fileInputStream = mock(FileInputStream.class);
+        //inputStreamReader = mock(InputStreamReader.class);
+        //reader = mock(BufferedReader.class);
+        when(reader.ready()).thenReturn(true).thenReturn(true).thenReturn(false);
+        when(reader.readLine()).thenReturn("line1").thenReturn("line2");
+
+        //String sql = dbInit.getSQLFromFile("123");
+        assertThrows(FileNotFoundException.class, () -> {
+            String sql = dbInit.getSQLFromFile("123");
+        });
     }
 }

@@ -57,13 +57,16 @@ public class DBInit implements IDBInit {
      */
     @Override
     public void executeSQLs() throws IOException, SQLException {
+        String sMethodName = "executeSQLs";
+        logger.info("{} Старт", sMethodName);
         List<String> listOfSQL = getListOfSQL(sqlFolder);
         Statement sqlStatement = connection.createStatement();
         if (listOfSQL == null || listOfSQL.size() == 0) {
+            logger.info("{}: Нет файлов для выполнения SQL", sMethodName);
             return;
         }
         for (String file : listOfSQL) {
-            logger.info("Выполнение - " + file);
+            logger.info("{}: Выполнение SQL - {}", sMethodName, file);
             String sql = getSQLFromFile(file);
             sqlStatement.execute(sql);
         }
@@ -76,6 +79,8 @@ public class DBInit implements IDBInit {
      */
     @Override
     public List<String> getListOfSQL(String sqlFolder) {
+        String sMethodName = "getListOfSQL";
+        logger.info("{} Старт", sMethodName);
         List<String> listOfSQL = new ArrayList<>();
         File folder = new File(sqlFolder);
         File[] files = folder.listFiles(
@@ -105,6 +110,8 @@ public class DBInit implements IDBInit {
      */
     @Override
     public String getSQLFromFile(String sqlFile) throws IOException {
+        String sMethodName = "getSQLFromFile";
+        logger.info("{} Старт", sMethodName);
         StringBuilder sb = new StringBuilder();
         try (FileInputStream fileInputStream = new FileInputStream(sqlFile);
              BufferedReader reader = new BufferedReader(new InputStreamReader(fileInputStream, StandardCharsets.UTF_8))) {
@@ -113,10 +120,12 @@ public class DBInit implements IDBInit {
                 sb.append(line);
                 sb.append("\n");
             }
-        }
-        catch (IOException e) {
-            e.printStackTrace();
-            throw new IOException(e);
+        } catch (FileNotFoundException e) {
+            logger.error("{}: Файл {} не найден", sMethodName, sqlFile, e);
+            throw e;
+        } catch (IOException e) {
+            logger.error("{}: Ошибка чтения SQL из файла", sMethodName, e);
+            throw e;
         }
         return sb.toString();
     }
