@@ -19,7 +19,7 @@ import java.sql.*;
                 logger.info("Старт Main");
                 System.out.println("Домашнее задание 19");
                 logger.info("Подготовка базы");
-                db = new DBInit("jdbc:postgresql://localhost:5432/testDB?user=postgres&password=Asdf4321", "src/main/java/store/sokolov/innopolis/homework_22/sql");
+                db = new DBInit("jdbc:postgresql://172.17.0.2:5432/testDB?user=postgres&password=Asdf4321", "src/main/java/store/sokolov/innopolis/homework_22/sql");
                 logger.info("-- Сброс и инициализация базы данных --");
                 db.executeSQLs();
                 logger.info("База готова");
