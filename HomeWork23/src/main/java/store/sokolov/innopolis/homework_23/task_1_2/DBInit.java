@@ -2,11 +2,12 @@ package store.sokolov.innopolis.homework_23.task_1_2;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import store.sokolov.innopolis.homework_23.task_1_2.ConnectionManager.ConnectionManager;
+import store.sokolov.innopolis.homework_23.task_1_2.ConnectionManager.IConnectionManager;
 
 import java.io.*;
 import java.nio.charset.StandardCharsets;
 import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
@@ -20,12 +21,25 @@ import java.util.List;
  *
  * @author Vladimir Sokolov
  */
-public class DBInit {
+public class DBInit implements IDBInit {
+    private final IConnectionManager connectionManager;
     /** соединение с бд */
     private final Connection connection;
     /** каталог, из которого читаются файлы с запросами */
     private final String sqlFolder;
-    private final Logger logger = LoggerFactory.getLogger("DBInit");
+    private final Logger logger = LoggerFactory.getLogger(DBInit.class);
+
+    /**
+     * Конструктор
+     * @param connectionManager соединение с бд
+     * @param sqlFolder каталог, из которого будут читаться файлы с sql запросами
+     * @throws SQLException выбрасывается при возникновении ошибки при выполнении запроса
+     */
+    public DBInit(IConnectionManager connectionManager, String sqlFolder) throws SQLException {
+        this.connectionManager = connectionManager;
+        this.sqlFolder = sqlFolder;
+        connection = connectionManager.getConnection();
+    }
 
     /**
      * Конструктор
@@ -34,19 +48,14 @@ public class DBInit {
      * @throws SQLException выбрасывается при возникновении ошибки при выполнении запроса
      */
     public DBInit(String url, String sqlFolder) throws SQLException {
-        this.connection = DriverManager.getConnection(url);
-        this.sqlFolder = sqlFolder;
-    }
-
-    /** Возвращает соединение с бд */
-    public Connection getConnection() {
-        return connection;
+        this(ConnectionManager.getInstance(url), sqlFolder);
     }
 
     /**
      * Выполняет запросы из файлов
      * @throws IOException выбрасывается при возникновении ошибки при чтении файлов
      */
+    @Override
     public void executeSQLs() throws IOException, SQLException {
         List<String> listOfSQL = getListOfSQL(sqlFolder);
         Statement sqlStatement = connection.createStatement();
@@ -54,7 +63,6 @@ public class DBInit {
             return;
         }
         for (String file : listOfSQL) {
-            //System.out.println("Выполнение - " + file);
             logger.info("Выполнение - " + file);
             String sql = getSQLFromFile(file);
             sqlStatement.execute(sql);
@@ -66,6 +74,7 @@ public class DBInit {
      * Маска поиска - файл должен начинаться на "db-" и оканчиваться на ".sql"
      * @return список файлов
      */
+    @Override
     public List<String> getListOfSQL(String sqlFolder) {
         List<String> listOfSQL = new ArrayList<>();
         File folder = new File(sqlFolder);
@@ -94,6 +103,7 @@ public class DBInit {
      * @param sqlFile файл, из которого читаются запросы
      * @return запросы, прочитанные из файла
      */
+    @Override
     public String getSQLFromFile(String sqlFile) throws IOException {
         StringBuilder sb = new StringBuilder();
         try (FileInputStream fileInputStream = new FileInputStream(sqlFile);

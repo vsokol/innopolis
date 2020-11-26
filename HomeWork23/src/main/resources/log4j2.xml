@@ -40,10 +40,10 @@
             <AppenderRef ref="MyLogRollingFile" level="DEBUG"/>
             <AppenderRef ref="stdout" level="INFO"/>
         </Root>
-        <Logger name="task" level="trace" additivity="false">
-            <AppenderRef ref="MyLogFileForTask" level="TRACE"/>
+        <Logger name="store.sokolov.innopolis.homework_23.task_1_2.dao.TaskDao" level="trace" additivity="false">
+            <AppenderRef ref="MyLogFileForTask" level="INFO"/>
             <AppenderRef ref="stdout" level="INFO"/>
-            <AppenderRef ref="db" level="INFO"/>
+<!--            <AppenderRef ref="db" level="INFO"/>-->
         </Logger>
     </Loggers>
 </Configuration>
