@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration>
+    <Appenders>
+        <File name="MyLogFileForTask" fileName="logs/task.log">
+            <MarkerFilter marker="consoleonly" onMatch="DENY" onMismatch="ACCEPT"/>
+            <PatternLayout>
+                <Pattern>%d %p %c{1.} [%t] %m %ex%n</Pattern>
+            </PatternLayout>
+        </File>
+        <RollingFile name="MyLogRollingFile" fileName="logs/testLoggerAndDB.log"
+                     filePattern="logs/$${date:yyyy-MM}/app-%d{yyyy-MM-dd-HH}-%i.log.gz">
+            <PatternLayout>
+                <Pattern>%d %p %c{1.} [%t] %m%n</Pattern>
+            </PatternLayout>
+            <Policies>
+                <TimeBasedTriggeringPolicy interval="6" modulate="true"/>
+                <SizeBasedTriggeringPolicy size="10 MB"/>
+            </Policies>
+        </RollingFile>
+        <Console name="stdout" target="SYSTEM_OUT">
+            <PatternLayout pattern="%d [%p] %c %m%n"/>
+        </Console>
+        <JDBC name="db" tableName="app_logs">
+            <DriverManager connectionString="jdbc:postgresql://localhost:5432/testDB"
+                           driverClassName="org.postgresql.Driver"
+                           username="postgres" password="Asdf4321"/>
+<!--            <DriverManager connectionString="jdbc:postgresql://host.docker.internal:5432/testDB"-->
+<!--                           driverClassName="org.postgresql.Driver"-->
+<!--                           username="postgres" password="Asdf4321"/>-->
+            <Column name="log_id" pattern="%u" isUnicode="false"/>
+            <Column name="entry_date" isEventTimestamp="true"/>
+            <Column name="logger" pattern="%logger" isUnicode="false"/>
+            <Column name="log_level" pattern="%level" isUnicode="false"/>
+            <Column name="message" pattern="%m" isUnicode="false"/>
+            <Column name="exception" pattern="%throwable" isUnicode="false"/>
+        </JDBC>
+    </Appenders>
+    <Loggers>
+        <Root level="trace">
+            <AppenderRef ref="MyLogRollingFile" level="DEBUG"/>
+            <AppenderRef ref="stdout" level="INFO"/>
+        </Root>
+        <Logger name="store.sokolov.innopolis.homework_25.task_1_2.dao.TaskDao" level="trace" additivity="false">
+            <AppenderRef ref="MyLogFileForTask" level="INFO"/>
+            <AppenderRef ref="stdout" level="INFO"/>
+<!--            <AppenderRef ref="db" level="INFO"/>-->
+        </Logger>
+    </Loggers>
+</Configuration>
