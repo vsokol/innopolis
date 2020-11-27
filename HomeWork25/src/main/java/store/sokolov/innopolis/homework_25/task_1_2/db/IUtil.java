@@ -1,10 +1,10 @@
-package store.sokolov.innopolis.homework_25.task_1_2;
+package store.sokolov.innopolis.homework_25.task_1_2.db;
 
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.List;
 
-public interface IDBInit {
+public interface IUtil {
     /**
      * Выполняет запросы из файлов
      * @throws IOException выбрасывается при возникновении ошибки при чтении файлов

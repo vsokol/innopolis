@@ -8,6 +8,7 @@ import store.sokolov.innopolis.homework_25.task_1_2.CheckList.ICheckedObject;
 import store.sokolov.innopolis.homework_25.task_1_2.ConnectionManager.ConnectionManager;
 import store.sokolov.innopolis.homework_25.task_1_2.dao.ITaskDao;
 import store.sokolov.innopolis.homework_25.task_1_2.dao.TaskDao;
+import store.sokolov.innopolis.homework_25.task_1_2.db.Util;
 
 import java.io.IOException;
 import java.sql.*;
@@ -18,18 +19,18 @@ import java.util.List;
      * Описание задачи - tasks.md
      * Инициализация БД. Запросы читаются из каталога src/main/java/store/sokolov/innopolis/homework_25/sql и выполняются на бд.
      */
-    public class TestJUnit {
+    public class CheckedObjectApp {
         //private static String url = "jdbc:postgresql://localhost:5432/testDB?user=postgres&password=Asdf4321";
         //private static String url = "jdbc:postgresql://host.docker.internal:5432/testDB?user=postgres&password=Asdf4321";
         private static String url = "jdbc:postgresql://172.17.0.2:5432/testDB?user=postgres&password=Asdf4321";
-        private static DBInit db;
+        private static Util db;
 
         public static void main(String[] args) throws SQLException, IOException {
             Logger logger = LoggerFactory.getLogger("TestJUnit");
             logger.info("Старт Main");
             System.out.println("Домашнее задание 19");
             logger.info("Подготовка базы");
-            db = new DBInit(url, "src/main/java/store/sokolov/innopolis/homework_25/sql");
+            db = new Util(url, "src/main/java/store/sokolov/innopolis/homework_25/sql");
             logger.info("-- Сброс и инициализация базы данных --");
             db.executeSQLs();
             logger.info("База готова");

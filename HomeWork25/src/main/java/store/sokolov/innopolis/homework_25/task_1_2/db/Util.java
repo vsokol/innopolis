@@ -1,4 +1,4 @@
-package store.sokolov.innopolis.homework_25.task_1_2;
+package store.sokolov.innopolis.homework_25.task_1_2.db;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -21,13 +21,13 @@ import java.util.List;
  *
  * @author Vladimir Sokolov
  */
-public class DBInit implements IDBInit {
+public class Util implements IUtil {
     private final IConnectionManager connectionManager;
     /** соединение с бд */
     private final Connection connection;
     /** каталог, из которого читаются файлы с запросами */
     private final String sqlFolder;
-    private final Logger logger = LoggerFactory.getLogger(DBInit.class);
+    private final Logger logger = LoggerFactory.getLogger(Util.class);
 
     /**
      * Конструктор
@@ -35,7 +35,7 @@ public class DBInit implements IDBInit {
      * @param sqlFolder каталог, из которого будут читаться файлы с sql запросами
      * @throws SQLException выбрасывается при возникновении ошибки при выполнении запроса
      */
-    public DBInit(IConnectionManager connectionManager, String sqlFolder) throws SQLException {
+    public Util(IConnectionManager connectionManager, String sqlFolder) throws SQLException {
         this.connectionManager = connectionManager;
         this.sqlFolder = sqlFolder;
         connection = connectionManager.getConnection();
@@ -47,7 +47,7 @@ public class DBInit implements IDBInit {
      * @param sqlFolder каталог, из которого будут читаться файлы с sql запросами
      * @throws SQLException выбрасывается при возникновении ошибки при выполнении запроса
      */
-    public DBInit(String url, String sqlFolder) throws SQLException {
+    public Util(String url, String sqlFolder) throws SQLException {
         this(ConnectionManager.getInstance(url), sqlFolder);
     }
 
