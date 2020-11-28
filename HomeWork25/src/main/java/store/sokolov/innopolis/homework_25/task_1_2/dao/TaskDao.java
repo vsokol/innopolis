@@ -28,7 +28,7 @@ public class TaskDao implements ITaskDao {
      * Применить параметризованный запрос
      */
     @Override
-    public List<CheckListItem> getListCheckListItemOnId(long checklistId) throws SQLException {
+    public List<CheckListItem> getListCheckListItemById(long checklistId) throws SQLException {
         String sMethodName = "getListCheckListItemOnId";
         logger.info("{}: Задача - Применить параметризованный запрос", sMethodName);
         List<CheckListItem> list = new ArrayList<>();

@@ -4,12 +4,12 @@ import java.io.IOException;
 import java.sql.SQLException;
 import java.util.List;
 
-public interface IUtil {
+public interface IDBUtil {
     /**
      * Выполняет запросы из файлов
      * @throws IOException выбрасывается при возникновении ошибки при чтении файлов
      */
-    void executeSQLs() throws IOException, SQLException;
+    void prepareDB(String sqlFolder) throws IOException, SQLException;
     /**
      * Возвращает список всех sql файлов, которые необходимо выполнить
      * Маска поиска - файл должен начинаться на "db-" и оканчиваться на ".sql"

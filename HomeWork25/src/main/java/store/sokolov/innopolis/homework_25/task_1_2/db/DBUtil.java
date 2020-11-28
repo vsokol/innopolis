@@ -21,34 +21,30 @@ import java.util.List;
  *
  * @author Vladimir Sokolov
  */
-public class Util implements IUtil {
+public class DBUtil implements IDBUtil {
     private final IConnectionManager connectionManager;
     /** соединение с бд */
     private final Connection connection;
     /** каталог, из которого читаются файлы с запросами */
-    private final String sqlFolder;
-    private final Logger logger = LoggerFactory.getLogger(Util.class);
+    private final Logger logger = LoggerFactory.getLogger(DBUtil.class);
 
     /**
      * Конструктор
      * @param connectionManager соединение с бд
-     * @param sqlFolder каталог, из которого будут читаться файлы с sql запросами
      * @throws SQLException выбрасывается при возникновении ошибки при выполнении запроса
      */
-    public Util(IConnectionManager connectionManager, String sqlFolder) throws SQLException {
+    public DBUtil(IConnectionManager connectionManager) throws SQLException {
         this.connectionManager = connectionManager;
-        this.sqlFolder = sqlFolder;
         connection = connectionManager.getConnection();
     }
 
     /**
      * Конструктор
      * @param url строка соединения с бд
-     * @param sqlFolder каталог, из которого будут читаться файлы с sql запросами
      * @throws SQLException выбрасывается при возникновении ошибки при выполнении запроса
      */
-    public Util(String url, String sqlFolder) throws SQLException {
-        this(ConnectionManager.getInstance(url), sqlFolder);
+    public DBUtil(String url) throws SQLException {
+        this(ConnectionManager.getInstance(url));
     }
 
     /**
@@ -56,7 +52,7 @@ public class Util implements IUtil {
      * @throws IOException выбрасывается при возникновении ошибки при чтении файлов
      */
     @Override
-    public void executeSQLs() throws IOException, SQLException {
+    public void prepareDB(String sqlFolder) throws IOException, SQLException {
         String sMethodName = "executeSQLs";
         logger.info("{} Старт", sMethodName);
         List<String> listOfSQL = getListOfSQL(sqlFolder);

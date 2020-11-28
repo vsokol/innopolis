@@ -10,7 +10,7 @@ public interface ITaskDao {
     /**
      * Применить параметризованный запрос
      */
-    List<CheckListItem> getListCheckListItemOnId(long checklistId) throws SQLException;
+    List<CheckListItem> getListCheckListItemById(long checklistId) throws SQLException;
     /**
      * Применить батчинг
      * @param listCheckedObject

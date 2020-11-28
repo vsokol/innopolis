@@ -59,7 +59,7 @@ class TaskDaoTest {
         when(resultSet.getBoolean("is_required")).thenReturn(true).thenReturn(false);
         when(resultSet.getString("descr")).thenReturn("Возможные значения: \"Да\", \"Нет\" и \"Не определено\"").thenReturn("Возможные значения: \"Ведро\", \"Багор\", \"Лопата\", \"Топор\"");
 
-        List<CheckListItem> list = taskDao.getListCheckListItemOnId(1001);
+        List<CheckListItem> list = taskDao.getListCheckListItemById(1001);
         assertEquals(list.size(), 2);
         assertEquals(list.get(0).getId(), 1001L);
         assertEquals(list.get(1).getId(), 1002L);

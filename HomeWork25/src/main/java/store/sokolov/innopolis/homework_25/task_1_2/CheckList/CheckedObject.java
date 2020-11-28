@@ -102,4 +102,14 @@ public class CheckedObject implements ICheckedObject {
     public void excludeCheckedObject(ICheckedObject checkedObject) {
         excludeCheckedObject(checkedObject.getId());
     }
+
+    @Override
+    public String toString() {
+        return "CheckedObject{" +
+                "id=" + id +
+                ", parent=" + (parent != null ? parent.toString() : "null")+
+                ", name='" + name + '\'' +
+                ", descr='" + (descr != null ? getDescr() : "null") + '\'' +
+                '}';
+    }
 }

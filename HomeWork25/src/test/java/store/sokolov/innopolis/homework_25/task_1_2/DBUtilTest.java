@@ -4,8 +4,8 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 import store.sokolov.innopolis.homework_25.task_1_2.ConnectionManager.ConnectionManager;
-import store.sokolov.innopolis.homework_25.task_1_2.db.Util;
-import store.sokolov.innopolis.homework_25.task_1_2.db.IUtil;
+import store.sokolov.innopolis.homework_25.task_1_2.db.DBUtil;
+import store.sokolov.innopolis.homework_25.task_1_2.db.IDBUtil;
 
 import java.io.*;
 import java.sql.Connection;
@@ -16,9 +16,9 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 import static org.mockito.MockitoAnnotations.initMocks;
 
-class UtilTest {
+class DBUtilTest {
     private String sqlFolder = "sqlFolder";
-    private IUtil dbInit;
+    private IDBUtil dbInit;
     @Mock
     private ConnectionManager connectionManager;
     @Mock
@@ -38,7 +38,7 @@ class UtilTest {
         connection = mock(Connection.class);
         when(connectionManager.getConnection()).thenReturn(connection);
 
-        dbInit = new Util(connectionManager, sqlFolder);
+        dbInit = new DBUtil(connectionManager);
     }
 
     @Test
