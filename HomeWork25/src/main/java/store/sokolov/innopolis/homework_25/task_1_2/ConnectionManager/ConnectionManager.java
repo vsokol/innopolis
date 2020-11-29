@@ -2,6 +2,7 @@ package store.sokolov.innopolis.homework_25.task_1_2.ConnectionManager;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import store.sokolov.innopolis.homework_25.task_1_2.exception.InvalidInvokeMethod;
 
 import java.sql.Connection;
 import java.sql.DriverManager;

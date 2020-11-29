@@ -1,6 +1,7 @@
 package store.sokolov.innopolis.homework_25.task_1_2.ConnectionManager;
 
 import org.junit.jupiter.api.Test;
+import store.sokolov.innopolis.homework_25.task_1_2.exception.InvalidInvokeMethod;
 
 import static org.junit.jupiter.api.Assertions.*;
 

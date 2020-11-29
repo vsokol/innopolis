@@ -6,7 +6,7 @@ import store.sokolov.innopolis.homework_25.task_1_2.CheckList.CheckedObject;
 import store.sokolov.innopolis.homework_25.task_1_2.CheckList.ICheckedObject;
 import store.sokolov.innopolis.homework_25.task_1_2.ConnectionManager.ConnectionManager;
 import store.sokolov.innopolis.homework_25.task_1_2.db.DBUtil;
-import store.sokolov.innopolis.homework_25.task_1_2.exception.CheckedObjectDao;
+import store.sokolov.innopolis.homework_25.task_1_2.dao.CheckedObjectDao;
 
 import java.io.IOException;
 import java.sql.*;
@@ -17,9 +17,9 @@ import java.sql.*;
      */
     public class CheckedObjectApp {
         private static final Logger logger = LoggerFactory.getLogger(CheckedObject.class);
-        //private static String url = "jdbc:postgresql://localhost:5432/testDB?user=postgres&password=Asdf4321";
-        //private static String url = "jdbc:postgresql://host.docker.internal:5432/testDB?user=postgres&password=Asdf4321";
-        private static String url = "jdbc:postgresql://172.17.0.2:5432/testDB?user=postgres&password=Asdf4321";
+        //private static final String url = "jdbc:postgresql://localhost:5432/testDB?user=postgres&password=Asdf4321";
+        //private static final String url = "jdbc:postgresql://host.docker.internal:5432/testDB?user=postgres&password=Asdf4321";
+        private static final String url = "jdbc:postgresql://172.17.0.2:5432/testDB?user=postgres&password=Asdf4321";
 
         public static void main(String[] args) throws SQLException, IOException {
             logger.info("Подготовка базы");
