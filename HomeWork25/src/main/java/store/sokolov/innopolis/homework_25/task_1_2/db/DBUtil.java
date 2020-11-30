@@ -31,20 +31,10 @@ public class DBUtil implements IDBUtil {
     /**
      * Конструктор
      * @param connectionManager соединение с бд
-     * @throws SQLException выбрасывается при возникновении ошибки при выполнении запроса
      */
-    public DBUtil(IConnectionManager connectionManager) throws SQLException {
+    public DBUtil(IConnectionManager connectionManager) {
         this.connectionManager = connectionManager;
         connection = connectionManager.getConnection();
-    }
-
-    /**
-     * Конструктор
-     * @param url строка соединения с бд
-     * @throws SQLException выбрасывается при возникновении ошибки при выполнении запроса
-     */
-    public DBUtil(String url) throws SQLException {
-        this(ConnectionManager.getInstance(url));
     }
 
     /**
