@@ -21,9 +21,11 @@ public class ShowCheckedObjectServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        logger.debug("HttpServletRequest = {}, HttpServletResponse = {}", req, resp);
         String id = (String)req.getAttribute("id");
+        logger.info("id = {}", id);
         ICheckedObject checkedObject = checkedObjectDao.getCheckedObjectById(Long.valueOf(id));
         req.setAttribute("checkedobject", checkedObject);
-        req.getRequestDispatcher('WEB-INF/jsp/showcheckedobject.jsp').forward(req, resp);
+        req.getRequestDispatcher("WEB-INF/jsp/showcheckedobject.jsp").forward(req, resp);
     }
 }

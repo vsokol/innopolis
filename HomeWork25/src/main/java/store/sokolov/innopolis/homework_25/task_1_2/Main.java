@@ -19,9 +19,6 @@ import java.util.List;
      */
     public class Main {
         private static final Logger logger = LoggerFactory.getLogger(Main.class);
-        //private static final String url = "jdbc:postgresql://localhost:5432/testDB?user=postgres&password=Asdf4321";
-        //private static final String url = "jdbc:postgresql://host.docker.internal:5432/testDB?user=postgres&password=Asdf4321";
-        //private static final String url = "jdbc:postgresql://172.17.0.2:5432/testDB?user=postgres&password=Asdf4321";
 
         public static void main(String[] args) throws SQLException, IOException {
             logger.info("Подготовка базы");
