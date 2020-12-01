@@ -2,15 +2,16 @@ package store.sokolov.innopolis.homework_25.task_1_2;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import store.sokolov.innopolis.homework_25.task_1_2.CheckList.CheckedObject;
 import store.sokolov.innopolis.homework_25.task_1_2.CheckList.ICheckedObject;
 import store.sokolov.innopolis.homework_25.task_1_2.ConnectionManager.ConnectionManager;
+import store.sokolov.innopolis.homework_25.task_1_2.ConnectionManager.IConnectionManager;
+import store.sokolov.innopolis.homework_25.task_1_2.dao.CheckedObjectDao;
 import store.sokolov.innopolis.homework_25.task_1_2.dao.ICheckedObjectDao;
 import store.sokolov.innopolis.homework_25.task_1_2.db.DBUtil;
-import store.sokolov.innopolis.homework_25.task_1_2.dao.CheckedObjectDao;
+import store.sokolov.innopolis.homework_25.task_1_2.db.IDBUtil;
 
 import java.io.IOException;
-import java.sql.*;
+import java.sql.SQLException;
 import java.util.List;
 
 /**
@@ -22,8 +23,8 @@ import java.util.List;
 
         public static void main(String[] args) throws SQLException, IOException {
             logger.info("Подготовка базы");
-            ConnectionManager connectionManager = ConnectionManager.getInstance();
-            DBUtil dbUtil = new DBUtil(connectionManager);
+            IConnectionManager connectionManager = new ConnectionManager();
+            IDBUtil dbUtil = new DBUtil(connectionManager.getConnection());
             dbUtil.prepareDB("src/main/java/store/sokolov/innopolis/homework_25/sql");
 
             ICheckedObjectDao checkedObjectDao = new CheckedObjectDao(connectionManager);

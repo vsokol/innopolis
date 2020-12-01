@@ -22,7 +22,6 @@ import java.util.List;
  * @author Vladimir Sokolov
  */
 public class DBUtil implements IDBUtil {
-    private final IConnectionManager connectionManager;
     /** соединение с бд */
     private final Connection connection;
     /** каталог, из которого читаются файлы с запросами */
@@ -30,11 +29,10 @@ public class DBUtil implements IDBUtil {
 
     /**
      * Конструктор
-     * @param connectionManager соединение с бд
+     * @param connection соединение с бд
      */
-    public DBUtil(IConnectionManager connectionManager) {
-        this.connectionManager = connectionManager;
-        connection = connectionManager.getConnection();
+    public DBUtil(Connection connection) {
+        this.connection = connection;
     }
 
     /**

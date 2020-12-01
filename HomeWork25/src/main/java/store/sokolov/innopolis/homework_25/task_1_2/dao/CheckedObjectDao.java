@@ -72,7 +72,9 @@ public class CheckedObjectDao implements ICheckedObjectDao {
         List<ICheckedObject> list = null;
         try {
             logger.debug("{}: sql = {}", sMethodName, SELECT_CHECKED_OBJECT);
+            logger.debug("{}: connection = {}", sMethodName, connection);
             PreparedStatement statement = connection.prepareStatement(SELECT_CHECKED_OBJECT);
+            logger.debug("{}: statement = {}", sMethodName, statement);
             ResultSet resultSet = statement.executeQuery();
             list = getCheckedObjectFromResultSet(resultSet);
             return list;

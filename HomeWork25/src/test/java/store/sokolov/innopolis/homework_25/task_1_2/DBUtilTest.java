@@ -38,7 +38,7 @@ class DBUtilTest {
         connection = mock(Connection.class);
         when(connectionManager.getConnection()).thenReturn(connection);
 
-        dbInit = new DBUtil(connectionManager);
+        dbInit = new DBUtil(connection);
     }
 
     @Test
