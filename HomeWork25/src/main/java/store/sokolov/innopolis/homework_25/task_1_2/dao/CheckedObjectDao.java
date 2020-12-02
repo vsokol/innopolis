@@ -4,6 +4,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import store.sokolov.innopolis.homework_25.task_1_2.CheckList.CheckedObject;
 import store.sokolov.innopolis.homework_25.task_1_2.CheckList.ICheckedObject;
+import store.sokolov.innopolis.homework_25.task_1_2.ConnectionManager.ConnectionManager;
 import store.sokolov.innopolis.homework_25.task_1_2.ConnectionManager.IConnectionManager;
 import store.sokolov.innopolis.homework_25.task_1_2.db.DBUtil;
 import store.sokolov.innopolis.homework_25.task_1_2.exception.DublicateObjectById;
@@ -25,13 +26,12 @@ public class CheckedObjectDao implements ICheckedObjectDao {
     public final static String SELECT_CHECKED_OBJECT = "select id, parent_id, name, descr from checked_object";
     public final static String SELECT_CHECKED_OBJECT_BY_ID = "select id, parent_id, name, descr from checked_object where id = ?";
     public final static String SELECT_CHECKED_OBJECT_BY_PARENT_ID = "select id, parent_id, name, descr from checked_object where parent_id = ?";
-    private final IConnectionManager connectionManager;
-    private final Connection connection;
+
+    private final ConnectionManager connectionManager;
 
     @Inject
-    public CheckedObjectDao(IConnectionManager connectionManager) throws IOException, SQLException {
+    public CheckedObjectDao(ConnectionManager connectionManager) throws IOException, SQLException {
         this.connectionManager = connectionManager;
-        connection = connectionManager.getConnection();
     }
 
     @Override
@@ -41,7 +41,7 @@ public class CheckedObjectDao implements ICheckedObjectDao {
         List<ICheckedObject> list = null;
         try {
             logger.debug("{}: sql = {}", sMethodName, SELECT_CHECKED_OBJECT_BY_ID);
-            PreparedStatement statement = connection.prepareStatement(SELECT_CHECKED_OBJECT_BY_ID);
+            PreparedStatement statement = connectionManager.getConnection().prepareStatement(SELECT_CHECKED_OBJECT_BY_ID);
             statement.setLong(1, id);
             logger.debug("{}: Параметр 1 (id) = {}", sMethodName, id);
             ResultSet resultSet = statement.executeQuery();
@@ -72,8 +72,7 @@ public class CheckedObjectDao implements ICheckedObjectDao {
         List<ICheckedObject> list = null;
         try {
             logger.debug("{}: sql = {}", sMethodName, SELECT_CHECKED_OBJECT);
-            logger.debug("{}: connection = {}", sMethodName, connection);
-            PreparedStatement statement = connection.prepareStatement(SELECT_CHECKED_OBJECT);
+            PreparedStatement statement = connectionManager.getConnection().prepareStatement(SELECT_CHECKED_OBJECT);
             logger.debug("{}: statement = {}", sMethodName, statement);
             ResultSet resultSet = statement.executeQuery();
             list = getCheckedObjectFromResultSet(resultSet);

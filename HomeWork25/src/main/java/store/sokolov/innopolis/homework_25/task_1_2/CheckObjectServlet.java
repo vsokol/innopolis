@@ -3,6 +3,7 @@ package store.sokolov.innopolis.homework_25.task_1_2;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import store.sokolov.innopolis.homework_25.task_1_2.CheckList.ICheckedObject;
+import store.sokolov.innopolis.homework_25.task_1_2.dao.CheckedObjectDao;
 import store.sokolov.innopolis.homework_25.task_1_2.dao.ICheckedObjectDao;
 
 import javax.inject.Inject;
@@ -18,13 +19,13 @@ import java.util.List;
 public class CheckObjectServlet extends HttpServlet {
     final private static Logger logger = LoggerFactory.getLogger(CheckObjectServlet.class);
     @Inject
-    private ICheckedObjectDao checkedObjectDao;
+    private CheckedObjectDao checkedObjectDao;
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         logger.debug("HttpServletRequest = {}, HttpServletResponse = {}", req, resp);
         List<ICheckedObject> listAllCheckedObject = checkedObjectDao.getAllCheckedObject();
-        req.setAttribute("listAllCheckedObject", listAllCheckedObject);
+        req.setAttribute("checkedobjects", listAllCheckedObject);
         logger.debug(String.valueOf(listAllCheckedObject));
         req.getRequestDispatcher("WEB-INF/jsp/allcheckedobject.jsp").forward(req, resp);
     }

@@ -23,7 +23,7 @@ import java.util.List;
 
         public static void main(String[] args) throws SQLException, IOException {
             logger.info("Подготовка базы");
-            IConnectionManager connectionManager = new ConnectionManager();
+            ConnectionManager connectionManager = new ConnectionManager();
             IDBUtil dbUtil = new DBUtil(connectionManager.getConnection());
             dbUtil.prepareDB("src/main/java/store/sokolov/innopolis/homework_25/sql");
 
