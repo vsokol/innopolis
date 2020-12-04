@@ -7,6 +7,8 @@ import store.sokolov.innopolis.homework_25.task_1_2.CheckList.ICheckedObject;
 import store.sokolov.innopolis.homework_25.task_1_2.ConnectionManager.ConnectionManager;
 import store.sokolov.innopolis.homework_25.task_1_2.dao.CheckedObjectDao;
 import store.sokolov.innopolis.homework_25.task_1_2.dao.ICheckedObjectDao;
+import store.sokolov.innopolis.homework_25.task_1_2.dao.IUserDao;
+import store.sokolov.innopolis.homework_25.task_1_2.dao.UserDao;
 import store.sokolov.innopolis.homework_25.task_1_2.db.DBUtil;
 import store.sokolov.innopolis.homework_25.task_1_2.db.IDBUtil;
 
@@ -40,6 +42,31 @@ import java.util.List;
             checkedObjectDao.removeCheckedObject(checkedObject);
             list = checkedObjectDao.getAllCheckedObject();
             logger.info(String.valueOf(list));
+
+            IUserDao userDao = new UserDao(connectionManager);
+            List<User> listUser = userDao.getAllUsers();
+            logger.info(listUser.toString());
+
+            User user = new User("test1", "Test-1", true, "Descr 1");
+            user = userDao.addUser(user);
+            listUser = userDao.getAllUsers();
+            logger.info(listUser.toString());
+
+            user.setName("Test-222");
+            user.setLock(false);
+            user = userDao.getUser(user.getId());
+            listUser = userDao.getAllUsers();
+            logger.info(listUser.toString());
+
+            userDao.changePassword(user,"123456");
+            userDao.lockUser(user);
+            userDao.getUser(user.getId());
+            listUser = userDao.getAllUsers();
+            logger.info(listUser.toString());
+
+            userDao.removeUser(user);
+            listUser = userDao.getAllUsers();
+            logger.info(listUser.toString());
         }
 
     }
