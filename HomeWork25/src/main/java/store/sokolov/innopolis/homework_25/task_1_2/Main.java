@@ -2,9 +2,9 @@ package store.sokolov.innopolis.homework_25.task_1_2;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import store.sokolov.innopolis.homework_25.task_1_2.CheckList.CheckedObject;
 import store.sokolov.innopolis.homework_25.task_1_2.CheckList.ICheckedObject;
 import store.sokolov.innopolis.homework_25.task_1_2.ConnectionManager.ConnectionManager;
-import store.sokolov.innopolis.homework_25.task_1_2.ConnectionManager.IConnectionManager;
 import store.sokolov.innopolis.homework_25.task_1_2.dao.CheckedObjectDao;
 import store.sokolov.innopolis.homework_25.task_1_2.dao.ICheckedObjectDao;
 import store.sokolov.innopolis.homework_25.task_1_2.db.DBUtil;
@@ -28,10 +28,17 @@ import java.util.List;
             dbUtil.prepareDB("src/main/java/store/sokolov/innopolis/homework_25/sql");
 
             ICheckedObjectDao checkedObjectDao = new CheckedObjectDao(connectionManager);
-            ICheckedObject checkedObject = checkedObjectDao.getCheckedObjectById(1001);
+            ICheckedObject checkedObject = checkedObjectDao.addCheckedObject(new CheckedObject("Test 1", "Test 1 description"));
             logger.info(checkedObject.toString());
+            checkedObject.setName("Test 222");
+            checkedObject.setDescr("Description 222");
+            checkedObjectDao.updateCheckedObject(checkedObject);
 
             List<ICheckedObject> list = checkedObjectDao.getAllCheckedObject();
+            logger.info(String.valueOf(list));
+
+            checkedObjectDao.removeCheckedObject(checkedObject);
+            list = checkedObjectDao.getAllCheckedObject();
             logger.info(String.valueOf(list));
         }
 

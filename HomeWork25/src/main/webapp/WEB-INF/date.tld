@@ -1,0 +1,15 @@
+<taglib>
+    <tlib-version>1.0</tlib-version>
+    <jsp-version>2.0</jsp-version>
+    <short-name>DateTag</short-name>
+    <tag>
+        <name>DateTag</name>
+        <tag-class>store.sokolov.innopolis.homework_25.task_1_2.servlet.DateTag</tag-class>
+        <body-content>empty</body-content>
+        <attribute>
+            <name>plus</name>
+            <required>false</required>
+            <rtexprvalue>true</rtexprvalue>
+        </attribute>
+    </tag>
+</taglib>

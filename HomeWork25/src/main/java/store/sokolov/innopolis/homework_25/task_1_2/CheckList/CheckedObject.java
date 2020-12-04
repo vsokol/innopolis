@@ -10,14 +10,19 @@ public class CheckedObject implements ICheckedObject {
     private String descr;
     private Map<Long, ICheckedObject> listOfIncludedCheckedObject;
 
+    public CheckedObject() {
+    }
+
     public CheckedObject(Long id, String name) {
         this(id, name, null, null);
     }
 
+    public CheckedObject(String name, String descr) {
+        this(null, name, null, descr);
+    }
+
     public CheckedObject(Long id, String name, String descr) {
-        this.id = id;
-        this.name = name;
-        this.descr = descr;
+        this(id, name, null, descr);
     }
 
     public CheckedObject(Long id, String name, ICheckedObject parent, String descr) {
@@ -93,9 +98,7 @@ public class CheckedObject implements ICheckedObject {
         if (idCheckedObject == null || listOfIncludedCheckedObject == null) {
             return;
         }
-        if (listOfIncludedCheckedObject.containsKey(idCheckedObject)) {
-            listOfIncludedCheckedObject.remove(idCheckedObject);
-        }
+        listOfIncludedCheckedObject.remove(idCheckedObject);
     }
 
     @Override

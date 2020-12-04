@@ -6,6 +6,9 @@ import java.sql.SQLException;
 import java.util.List;
 
 public interface ICheckedObjectDao {
-    ICheckedObject getCheckedObjectById(long id);
+    ICheckedObject getCheckedObject(long id) ;
     List<ICheckedObject> getAllCheckedObject();
+    ICheckedObject addCheckedObject(ICheckedObject checkedObject);
+    void updateCheckedObject(ICheckedObject checkedObject);
+    void removeCheckedObject(ICheckedObject checkedObject);
 }

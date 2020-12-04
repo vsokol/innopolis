@@ -62,7 +62,7 @@ create index if not exists check_object_parent_id_idx on checked_object(parent_i
 
 alter sequence if exists checked_object_id_seq restart with 10000;
 
--- таблица связи чек-листов с проверямыми объектами
+-- таблица связи чек-листов с проверяемыми объектами
 create table if not exists crs_checklist_checked_object(
     id                bigserial
   , checklist_id      bigint    not null
