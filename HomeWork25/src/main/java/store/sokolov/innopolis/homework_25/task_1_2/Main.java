@@ -28,45 +28,6 @@ import java.util.List;
             ConnectionManager connectionManager = new ConnectionManager();
             IDBUtil dbUtil = new DBUtil(connectionManager.getConnection());
             dbUtil.prepareDB("src/main/java/store/sokolov/innopolis/homework_25/sql");
-
-            ICheckedObjectDao checkedObjectDao = new CheckedObjectDao(connectionManager);
-            ICheckedObject checkedObject = checkedObjectDao.addCheckedObject(new CheckedObject("Test 1", "Test 1 description"));
-            logger.info(checkedObject.toString());
-            checkedObject.setName("Test 222");
-            checkedObject.setDescr("Description 222");
-            checkedObjectDao.updateCheckedObject(checkedObject);
-
-            List<ICheckedObject> list = checkedObjectDao.getAllCheckedObject();
-            logger.info(String.valueOf(list));
-
-            checkedObjectDao.removeCheckedObject(checkedObject);
-            list = checkedObjectDao.getAllCheckedObject();
-            logger.info(String.valueOf(list));
-
-            IUserDao userDao = new UserDao(connectionManager);
-            List<User> listUser = userDao.getAllUsers();
-            logger.info(listUser.toString());
-
-            User user = new User("test1", "Test-1", true, "Descr 1");
-            user = userDao.addUser(user);
-            listUser = userDao.getAllUsers();
-            logger.info(listUser.toString());
-
-            user.setName("Test-222");
-            user.setLock(false);
-            user = userDao.getUser(user.getId());
-            listUser = userDao.getAllUsers();
-            logger.info(listUser.toString());
-
-            userDao.changePassword(user,"123456");
-            userDao.lockUser(user);
-            userDao.getUser(user.getId());
-            listUser = userDao.getAllUsers();
-            logger.info(listUser.toString());
-
-            userDao.removeUser(user);
-            listUser = userDao.getAllUsers();
-            logger.info(listUser.toString());
         }
 
     }

@@ -12,4 +12,5 @@ public interface IUserDao {
     void removeUser(User user);
     void lockUser(User user);
     void changePassword(User user, String password);
+    boolean isAccessDenied(String login, String password);
 }

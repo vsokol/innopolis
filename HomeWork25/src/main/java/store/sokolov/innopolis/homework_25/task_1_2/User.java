@@ -57,11 +57,11 @@ public class User {
         this.name = name;
     }
 
-    public boolean isLock() {
+    public boolean getIsLock() {
         return isLock;
     }
 
-    public void setLock(boolean lock) {
+    public void setIsLock(boolean lock) {
         isLock = lock;
     }
 

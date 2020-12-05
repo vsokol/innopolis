@@ -8,10 +8,10 @@
         <welcome-file>index.jsp</welcome-file>
     </welcome-file-list>
 
-    <context-param>
-        <param-name>isDao</param-name>
-        <param-value>true</param-value>
-    </context-param>
+<!--    <context-param>-->
+<!--        <param-name>isDao</param-name>-->
+<!--        <param-value>true</param-value>-->
+<!--    </context-param>-->
 
     <jsp-config>
         <taglib>

@@ -9,7 +9,7 @@
     </div>
     <div class="form-group">
         <label for="name">Название</label>
-        <input name="name" type="text" class="form-control" id="name" required="required" value="${checkedobject.name}">
+        <input name="name" type="text" class="form-control" id="name" required="required" size="50" value="${checkedobject.name}">
     </div>
     <div class="form-group">
         <label for="descr">Описание</label>

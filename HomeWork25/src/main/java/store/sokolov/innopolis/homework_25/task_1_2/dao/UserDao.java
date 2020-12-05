@@ -8,6 +8,7 @@ import store.sokolov.innopolis.homework_25.task_1_2.exception.DublicateObjectByI
 import store.sokolov.innopolis.homework_25.task_1_2.exception.NoDataFoundException;
 
 import javax.ejb.EJB;
+import javax.inject.Inject;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -27,16 +28,18 @@ public class UserDao implements IUserDao {
     final private String DELETE_USER = "delete from users where id = ?";
     final private String LOCK_USER = "update users set is_lock = true where id = ?";
     final private String CHANGE_USER_PASSWORD = "update users set password = ? where id = ?";
+    final private String CHECK_PASSWORD = "select password from users where login = ? and is_lock = false";
 
     private ConnectionManager connectionManager;
 
+    @Inject
     public UserDao(ConnectionManager connectionManager) {
         this.connectionManager = connectionManager;
     }
 
     @Override
     public User getUser(long id) {
-        logger.info("Получени информации по пользователю с идентификатором {}", id);
+        logger.info("Получение информации по пользователю с идентификатором {}", id);
         List<User> list;
         try {
             PreparedStatement statement = connectionManager.getConnection().prepareStatement(SELECT_USER_BY_ID);
@@ -100,7 +103,7 @@ public class UserDao implements IUserDao {
             PreparedStatement statement = connectionManager.getConnection().prepareStatement(INSERT_USER);
             statement.setString(1, user.getLogin());
             statement.setString(2, user.getName());
-            statement.setBoolean(3, user.isLock());
+            statement.setBoolean(3, user.getIsLock());
             statement.setString(4, user.getFullName());
             ResultSet resultSet = statement.executeQuery();
             if (resultSet == null) {
@@ -130,7 +133,7 @@ public class UserDao implements IUserDao {
             PreparedStatement statement = connectionManager.getConnection().prepareStatement(UPDATE_USER);
             statement.setString(1, user.getLogin());
             statement.setString(2, user.getName());
-            statement.setBoolean(3, user.isLock());
+            statement.setBoolean(3, user.getIsLock());
             statement.setString(4, user.getFullName());
             statement.setLong(5, user.getId());
             statement.executeUpdate();
@@ -178,5 +181,29 @@ public class UserDao implements IUserDao {
         } catch (SQLException exception) {
             logger.error("Error when changing user password with id = " + user.getId(), exception);
         }
+    }
+
+    @Override
+    public boolean isAccessDenied(String login, String password) {
+        try {
+            logger.debug("sql = {}", CHANGE_USER_PASSWORD);
+            PreparedStatement statement = connectionManager.getConnection().prepareStatement(CHANGE_USER_PASSWORD);
+            statement.setString(1, login);
+            ResultSet resultSet = statement.executeQuery();
+            if (resultSet == null) {
+                logger.info("resultSet is NULL");
+                return true;
+            }
+            String savedPassword = null;
+            while (resultSet.next()) {
+                savedPassword = resultSet.getString("password");
+            }
+            if (savedPassword != null && savedPassword.equals(password)) {
+                return false;
+            }
+        } catch (SQLException exception) {
+            logger.error("Ошибка при проверки доступа", exception);
+        }
+        return true;
     }
 }

@@ -38,7 +38,7 @@
     <Loggers>
         <Root level="trace">
             <AppenderRef ref="MyLogRollingFile" level="TRACE"/>
-            <AppenderRef ref="stdout" level="INFO"/>
+            <AppenderRef ref="stdout" level="DEBUG"/>
         </Root>
 <!--        <Logger name="store.sokolov.innopolis.homework_25.task_1_2.dao.TaskDao" level="trace" additivity="false">-->
 <!--            <AppenderRef ref="MyLogFileForTask" level="INFO"/>-->

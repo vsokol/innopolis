@@ -9,7 +9,7 @@
 <form method="post" action="${pageContext.request.contextPath}/addcheckedobject" autocomplete="off">
     <div class="form-group">
         <label for="name">Название</label>
-        <input name="name" type="text" class="form-control" id="name" required="required" value="<jsp:getProperty name="checkedobject" property="name" />">
+        <input name="name" type="text" class="form-control" id="name" required="required" size="50" value="<jsp:getProperty name="checkedobject" property="name" />">
     </div>
     <div class="form-group">
         <label for="descr">Описание</label>

@@ -4,6 +4,6 @@ insert into checklist_item_type (id, code, name, descr) values (3, 'combobox', '
 insert into checklist_item_type (id, code, name, descr) values (4, 'number', 'Числовое поле', 'Поле для ввода числовых значений');
 insert into checklist_item_type (id, code, name, descr) values (5, 'text', 'Текстовое поле', 'Текстовое поле');
 
-insert into users (id, login, password, name, is_lock, full_name) values(1, 'master', null, 'Master', false, null);
+insert into users (id, login, password, name, is_lock, full_name) values(1, 'admin', '827ccb0eea8a706c4c34a16891f84e7b', 'Admin', false, 'Главный админ');
 insert into users (id, login, password, name, is_lock, full_name) values(10, 'guest', null, 'Guest незванный', true, null);
 commit;

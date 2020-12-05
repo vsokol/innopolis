@@ -3,14 +3,7 @@
 <%@taglib prefix="myTags" tagdir="/WEB-INF/tags" %>
 
 <myTags:template>
-    <jsp:attribute name="header">
-        <h1>Объекты проверки</h1>
-        (<datetag:DateTag plus="0"/>)
-    </jsp:attribute>
   <jsp:body>
-    <ul>
-      <li><a href="${pageContext.request.contextPath}/allcheckedobject">Список объектов проверки</a></li>
-      <li><a href="${pageContext.request.contextPath}/addcheckedobject">Добавить новый объект проверки</a></li>
-    </ul>
+      <jsp:include page="login.jsp"/>
   </jsp:body>
 </myTags:template>
