@@ -3,7 +3,7 @@
 
 <html>
 <body>
-<h2>${user.name}</h2>
+<h3>Информация о пользователе "${user.name}"</h3>
 
 <dl class="dl-horizontal">
     <dt>Идентификатор:</dt>

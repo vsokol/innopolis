@@ -21,7 +21,7 @@ public class CheckedObjectRemoveServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        logger.debug("HttpServletRequest = {}, HttpServletResponse = {}", req, resp);
+        CheckAccess.check(req, resp);
         String id = req.getParameter("id");
         logger.info("id = {}", id);
         if (id == null) {
@@ -42,7 +42,7 @@ public class CheckedObjectRemoveServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        logger.debug("HttpServletRequest = {}, HttpServletResponse = {}", req, resp);
+        CheckAccess.check(req, resp);
         String id = req.getParameter("id");
         logger.info("id = {}", id);
         if (id == null) {

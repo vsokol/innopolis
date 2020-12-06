@@ -22,7 +22,7 @@ public class CheckObjectServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        logger.debug("HttpServletRequest = {}, HttpServletResponse = {}", req, resp);
+        CheckAccess.check(req, resp);
         List<ICheckedObject> listAllCheckedObject = checkedObjectDao.getAllCheckedObject();
         req.setAttribute("checkedobjects", listAllCheckedObject);
         req.setAttribute("PageTitle", "Checked Objects");

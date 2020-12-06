@@ -15,11 +15,12 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.util.List;
 import java.util.Locale;
 
-@WebServlet(urlPatterns = {"/allusers", "/showuser", "/adduser", "/edituser", "/removeuser", "/unlockuser", "/changeuserpassword"})
+@WebServlet(urlPatterns = {"/allusers", "/showuser", "/adduser", "/edituser", "/removeuser", "/lockunlockuser", "/changeuserpassword"})
 public class UserServlet extends HttpServlet {
     final private static Logger logger = LoggerFactory.getLogger(UserServlet.class);
     @Inject
@@ -29,12 +30,17 @@ public class UserServlet extends HttpServlet {
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String requestURI = req.getRequestURI();
         logger.info("getRequestURI = {}", requestURI);
+        CheckAccess.check(req, resp);
         if ("/allusers".equals(requestURI)) {
+            // Show all users
             List<User> listUser = userDao.getAllUsers();
             req.setAttribute("users", listUser);
             req.setAttribute("PageTitle", "Users");
             req.setAttribute("PageBody", "allusers.jsp");
-        } else if ("/showuser".equals(requestURI) || "/edituser".equals(requestURI) || "/removeuser".equals(requestURI)) {
+        } else if ("/showuser".equals(requestURI)
+                || "/edituser".equals(requestURI)
+                || "/removeuser".equals(requestURI)
+                || "/lockunlockuser".equals(requestURI)) {
             String id = req.getParameter("id");
             logger.info("id = {}", id);
             if (id == null) {
@@ -48,10 +54,20 @@ public class UserServlet extends HttpServlet {
                     req.setAttribute("PageBody", "showuser.jsp");
                 } else if ("/edituser".equals(requestURI)) {
                     req.setAttribute("PageTitle", "Edit User");
-                    req.setAttribute("PageBody", "edituser.jsp");
+                    req.setAttribute("PageBody", "formedituser.jsp");
                 } else if ("/removeuser".equals(requestURI)) {
                     req.setAttribute("PageTitle", "Remove User");
-                    req.setAttribute("PageBody", "removeuser.jsp");
+                    req.setAttribute("PageBody", "formremoveuser.jsp");
+                } else if ("/lockunlockuser".equals(requestURI)) {
+                    if (user.getIsLock()) {
+                        userDao.unlockUser(user);
+                    } else {
+                        userDao.lockUser(user);
+                    }
+                    List<User> listUser = userDao.getAllUsers();
+                    req.setAttribute("users", listUser);
+                    req.setAttribute("PageTitle", "Users");
+                    req.setAttribute("PageBody", "allusers.jsp");
                 }
             } catch (Exception exception) {
                 resp.setStatus(404);
@@ -69,23 +85,48 @@ public class UserServlet extends HttpServlet {
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException, ServletException {
         req.setCharacterEncoding("utf-8");
         String method = req.getParameter("_method");
+        CheckAccess.check(req, resp);
         if (method == null || method.isEmpty()) {
             throw new ServletException("Не задан метод");
         }
 
+        User user = null;
+        if ("put".equals(method) || "delete".equals(method)) {
+            // если update или delete, то найдем удаляемый элемент
+            String id = req.getParameter("id");
+            logger.info("id = {}", id);
+            if (id == null) {
+                throw new ServletException("Нет параметра id");
+            }
+            try {
+                user = userDao.getUser(Long.valueOf(id));
+                if ("delete".equals(method)) {
+                    req.setAttribute("PageTitle", "Remove User");
+                    userDao.removeUser(user);
+                }
+            } catch (Exception exception) {
+                resp.setStatus(404);
+                req.setAttribute("PageBody", "notfound.jsp");
+            }
+        }
+
         if ("post".equals(method) || "put".equals(method)) {
+            // Add user or Edit user
             String login = req.getParameter("login");
             String password = req.getParameter("password");
             String name = req.getParameter("name");
             String fullName = req.getParameter("fullName");
-            // TODO: нужен апдейт без поля isLock
-            User user = new User(login, name, false, fullName);
-            user.setPassword(DigestUtils.md5Hex(password));
-            userDao.addUser(user);
-        } else if ("delete".equals(method)) {
-
+            User userNew = new User(login, name, false, fullName);
+            if (password != null && !password.isEmpty()) {
+                userNew.setPassword(DigestUtils.md5Hex(password));
+            }
+            if ("post".equals(method)) {
+                userDao.addUser(userNew);
+            } else if ("put".equals(method)) {
+                userNew.setId(user.getId());
+                userDao.updateUserWithoutIsLock(userNew);
+            }
         }
-
         resp.sendRedirect(req.getContextPath() + "/allusers");
     }
 }

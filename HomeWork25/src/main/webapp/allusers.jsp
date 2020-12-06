@@ -6,6 +6,7 @@
     <tr>
         <th>Ид.</th>
         <th>Логин</th>
+        <th>Пароль</th>
         <th>Имя</th>
         <th>Заблокирован</th>
         <th>Описание</th>
@@ -16,13 +17,13 @@
         <tr>
             <td scope="row">${user.id}</td>
             <td>${user.login}</td>
+            <td>${user.password}</td>
             <td>${user.name}</td>
             <td>${user.isLock}</td>
             <td>${user.fullName}</td>
             <td><a href="${pageContext.request.contextPath}/showuser?id=${user.id}">Просмотр</a></td>
-            <td><a href="${pageContext.request.contextPath}/lockuser?id=${user.id}">Заблокировать</a></td>
-            <td><a href="${pageContext.request.contextPath}/unlockuser?id=${user.id}">Разблокировать</a></td>
-            <td><a href="${pageContext.request.contextPath}/changeuserpassword?id=${user.id}">Изменить пароль</a></td>
+            <td><a href="${pageContext.request.contextPath}/lockunlockuser?id=${user.id}">Изм.блокировку</a></td>
+            <td><a href="${pageContext.request.contextPath}/change_password?id=${user.id}">Изменить пароль</a></td>
             <td><a href="${pageContext.request.contextPath}/edituser?id=${user.id}">Изменить</a></td>
             <td><a href="${pageContext.request.contextPath}/removeuser?id=${user.id}">Удалить</a></td>
         </tr>

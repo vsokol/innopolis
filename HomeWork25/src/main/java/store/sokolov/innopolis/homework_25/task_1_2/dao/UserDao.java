@@ -9,6 +9,7 @@ import store.sokolov.innopolis.homework_25.task_1_2.exception.NoDataFoundExcepti
 
 import javax.ejb.EJB;
 import javax.inject.Inject;
+import javax.jws.soap.SOAPBinding;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -24,10 +25,13 @@ public class UserDao implements IUserDao {
     final private String INSERT_USER = "insert into users (login, name, is_lock, full_name) " +
             "values(?, ?, ?, ?) returning id";
     final private String UPDATE_USER = "update users " +
-            "set login = ?, name = ?, is_lock = ?, full_name = ? where id = ?";
+            "set login = ?, name = ?, full_name = ?, is_lock = ? where id = ?";
+    final private String UPDATE_USER_WITHOUT_IS_LOCK = "update users " +
+            "set login = ?, name = ?, full_name = ? where id = ?";
     final private String DELETE_USER = "delete from users where id = ?";
     final private String LOCK_USER = "update users set is_lock = true where id = ?";
-    final private String CHANGE_USER_PASSWORD = "update users set password = ? where id = ?";
+    final private String UNLOCK_USER = "update users set is_lock = false where id = ?";
+    final private String CHANGE_USER_PASSWORD = "update users set password = ? where login = ?";
     final private String CHECK_PASSWORD = "select password from users where login = ? and is_lock = false";
 
     private ConnectionManager connectionManager;
@@ -73,6 +77,7 @@ public class UserDao implements IUserDao {
             list.add(new User(
                     resultSet.getLong("id"),
                     resultSet.getString("login"),
+                    resultSet.getString("password"),
                     resultSet.getString("name"),
                     resultSet.getBoolean("is_lock"),
                     resultSet.getString("full_name")));
@@ -83,7 +88,7 @@ public class UserDao implements IUserDao {
 
     @Override
     public List<User> getAllUsers() {
-        logger.info("Получени информации по всем пользователям");
+        logger.info("Получение информации по всем пользователям");
         List<User> list;
         try {
             PreparedStatement statement = connectionManager.getConnection().prepareStatement(SELECT_USERS);
@@ -128,14 +133,28 @@ public class UserDao implements IUserDao {
 
     @Override
     public void updateUser(User user) {
+        updateUser(user, true);
+    }
+
+    @Override
+    public void updateUserWithoutIsLock(User user) {
+        updateUser(user, false);
+    }
+
+    private void updateUser(User user, boolean withFieldIsLock) {
         try {
-            logger.debug("sql = {}", UPDATE_USER);
-            PreparedStatement statement = connectionManager.getConnection().prepareStatement(UPDATE_USER);
+            String sql = (withFieldIsLock ? UPDATE_USER : UPDATE_USER_WITHOUT_IS_LOCK);
+            logger.debug("sql = {}", sql);
+            PreparedStatement statement = connectionManager.getConnection().prepareStatement(sql);
             statement.setString(1, user.getLogin());
             statement.setString(2, user.getName());
-            statement.setBoolean(3, user.getIsLock());
-            statement.setString(4, user.getFullName());
-            statement.setLong(5, user.getId());
+            statement.setString(3, user.getFullName());
+            int idxId = 4;
+            if (withFieldIsLock) {
+                statement.setBoolean(4, user.getIsLock());
+                idxId = 5;
+            }
+            statement.setLong(idxId, user.getId());
             statement.executeUpdate();
 
         } catch (SQLException exception) {
@@ -158,9 +177,19 @@ public class UserDao implements IUserDao {
 
     @Override
     public void lockUser(User user) {
+        changeLock(user, true);
+    }
+
+    @Override
+    public void unlockUser(User user) {
+        changeLock(user, false);
+    }
+
+    private void changeLock(User user, boolean isLock) {
         try {
-            logger.debug("sql = {}", LOCK_USER);
-            PreparedStatement statement = connectionManager.getConnection().prepareStatement(LOCK_USER);
+            String sql = (isLock ? LOCK_USER : UNLOCK_USER);
+            logger.debug("sql = {}", sql);
+            PreparedStatement statement = connectionManager.getConnection().prepareStatement(sql);
             statement.setLong(1, user.getId());
             statement.executeUpdate();
 
@@ -174,8 +203,8 @@ public class UserDao implements IUserDao {
         try {
             logger.debug("sql = {}", CHANGE_USER_PASSWORD);
             PreparedStatement statement = connectionManager.getConnection().prepareStatement(CHANGE_USER_PASSWORD);
-            statement.setString(1, user.getPassword());
-            statement.setLong(2, user.getId());
+            statement.setString(1, password);
+            statement.setString(2, user.getLogin());
             statement.executeUpdate();
 
         } catch (SQLException exception) {
@@ -186,8 +215,8 @@ public class UserDao implements IUserDao {
     @Override
     public boolean isAccessDenied(String login, String password) {
         try {
-            logger.debug("sql = {}", CHANGE_USER_PASSWORD);
-            PreparedStatement statement = connectionManager.getConnection().prepareStatement(CHANGE_USER_PASSWORD);
+            logger.debug("sql = {}", CHECK_PASSWORD);
+            PreparedStatement statement = connectionManager.getConnection().prepareStatement(CHECK_PASSWORD);
             statement.setString(1, login);
             ResultSet resultSet = statement.executeQuery();
             if (resultSet == null) {

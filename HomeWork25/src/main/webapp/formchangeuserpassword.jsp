@@ -1,13 +1,13 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 
-<h1>Введите данные для входа:</h1>
+<h1>Смена пароля:</h1>
 <br>
-<form method=post action="security_check">
+<form method=post action="change_password">
     <div class="form-group">
         <div class="input-group">
             <span class="input-group-addon"><strong>Логин:</strong></span>
-            <input name="login" type="text" class="form-control" size="15" id="login" value="${user.login}">
+            <input name="login" type="text" class="form-control" size="15" id="login" readonly value="${user.login}">
         </div>
     </div>
     <div class="form-group">

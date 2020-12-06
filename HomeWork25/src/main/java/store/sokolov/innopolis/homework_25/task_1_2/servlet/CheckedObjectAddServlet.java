@@ -21,15 +21,15 @@ public class CheckedObjectAddServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        logger.debug("HttpServletRequest = {}, HttpServletResponse = {}", req, resp);
+        CheckAccess.check(req, resp);
         req.setAttribute("PageTitle", "Add Checked Object");
         req.setAttribute("PageBody", "formaddcheckedobject.jsp");
         req.getRequestDispatcher("/layout.jsp").forward(req, resp);
     }
 
     @Override
-    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException {
-        logger.debug("HttpServletRequest = {}, HttpServletResponse = {}", req, resp);
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException, ServletException {
+        CheckAccess.check(req, resp);
         req.setCharacterEncoding("utf-8");
         String name = req.getParameter("name");
         String descr = req.getParameter("descr");
