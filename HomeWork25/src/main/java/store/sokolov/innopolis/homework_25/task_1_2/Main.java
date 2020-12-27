@@ -2,19 +2,12 @@ package store.sokolov.innopolis.homework_25.task_1_2;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import store.sokolov.innopolis.homework_25.task_1_2.CheckList.CheckedObject;
-import store.sokolov.innopolis.homework_25.task_1_2.CheckList.ICheckedObject;
 import store.sokolov.innopolis.homework_25.task_1_2.ConnectionManager.ConnectionManager;
-import store.sokolov.innopolis.homework_25.task_1_2.dao.CheckedObjectDao;
-import store.sokolov.innopolis.homework_25.task_1_2.dao.ICheckedObjectDao;
-import store.sokolov.innopolis.homework_25.task_1_2.dao.IUserDao;
-import store.sokolov.innopolis.homework_25.task_1_2.dao.UserDao;
 import store.sokolov.innopolis.homework_25.task_1_2.db.DBUtil;
 import store.sokolov.innopolis.homework_25.task_1_2.db.IDBUtil;
 
 import java.io.IOException;
 import java.sql.SQLException;
-import java.util.List;
 
 /**
      * Описание задачи - tasks.md
